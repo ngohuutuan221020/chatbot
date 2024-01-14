@@ -1,6 +1,7 @@
 require("dotenv").config();
 import request from "request";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+import chatbotService from "../services/chatbotService";
 //process.env.NAME_VARIABLES
 let getHomePage = (req, res) => {
   return res.render("homepage.ejs");
@@ -109,19 +110,25 @@ function handleMessage(sender_psid, received_message) {
 }
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
+async function handlePostback(sender_psid, received_postback) {
   let response;
 
   // Get the payload for the postback
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === "yes") {
-    response = {text: "Thanks!"};
-  } else if (payload === "no") {
-    response = {text: "Oops, try sending another image."};
-  } else if (payload === "GET_STARTED") {
-    response = {text: "OK, CHATBOT."};
+  switch (payload) {
+    case "yes":
+      response = {text: "Thanks!"};
+      break;
+    case "no":
+      response = {text: "Oops, try sending another image."};
+      break;
+    case "GET_STARTED":
+      await chatbotService.handleGetStarted(sender_psid);
+      break;
+    default:
+      response = {text: `Oop!, ${payload}`};
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -164,7 +171,7 @@ let setupProfile = async (req, res) => {
   };
   await request(
     {
-      uri: `https://graph.facebook.com/v9.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+      uri: `https://graph.facebook.com/v18.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
       qs: {access_token: PAGE_ACCESS_TOKEN},
       method: "POST",
       json: request_body,
