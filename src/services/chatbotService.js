@@ -48,7 +48,8 @@ let getUserName = (sender_psid) => {
 let handleGetStarted = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let response = {text: "OK, CHATBOT Live"};
+      let userName = await getUserName(sender_psid);
+      let response = {text: `Xin chào bạn ${userName}. Tôi có thể giúp gì cho bạn`};
       await callSendAPI(sender_psid, response);
       resolve("OK");
     } catch (error) {
