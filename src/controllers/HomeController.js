@@ -125,6 +125,7 @@ async function handlePostback(sender_psid, received_postback) {
       response = {text: "Oops, try sending another image."};
       break;
     case "GET_STARTED":
+    case "RESTART_BOT":
       await chatbotService.handleGetStarted(sender_psid);
       break;
     default:
@@ -187,7 +188,53 @@ let setupProfile = async (req, res) => {
   return res.send("Cài đặt thành công chatbot");
 };
 
+let setupMenu = async (req, res) => {
+  let request_body = {
+    persistent_menu: [
+      {
+        locale: "default",
+        composer_input_disabled: false,
+        call_to_actions: [
+          {
+            type: "postback",
+            title: "Bắt đầu",
+            payload: "START_BOT",
+          },
+          {
+            type: "web_url",
+            title: "Facebook",
+            url: "https://www.facebook.com/profile.php?id=61555388680477",
+            webview_height_ratio: "full",
+          },
+          {
+            type: "postback",
+            title: "Khởi động lại Bot",
+            payload: "RESTART_BOT",
+          },
+        ],
+      },
+    ],
+  };
+  await request(
+    {
+      uri: `https://graph.facebook.com/v18.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+      qs: {access_token: PAGE_ACCESS_TOKEN},
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      console.log(body);
+      if (!err) {
+        console.log("Setup persistent menu successed!");
+      } else {
+        console.error("Setup persistent menu faild:" + err);
+      }
+    }
+  );
+  return res.send("Cài đặt thành công persistent menu chatbot");
+};
 module.exports = {
+  setupMenu: setupMenu,
   setupProfile: setupProfile,
   getHomePage: getHomePage,
   postWebhook: postWebhook,

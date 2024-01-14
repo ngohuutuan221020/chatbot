@@ -35,7 +35,7 @@ let getUserName = (sender_psid) => {
       (err, res, body) => {
         if (!err) {
           body = JSON.parse(body);
-          let userName = `${body.last_name} ${body.firt_name}`;
+          let userName = `${body.last_name} ${body.first_name}`;
           resolve(userName);
           console.log("message sent!");
         } else {
@@ -49,8 +49,10 @@ let handleGetStarted = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
       let userName = await getUserName(sender_psid);
-      let response = {text: `Xin chào bạn ${userName}. Tôi có thể giúp gì cho bạn`};
-      await callSendAPI(sender_psid, response);
+      let response1 = {text: `Xin chào ${userName}`};
+      let response2 = sendGetStartedTemplate();
+      await callSendAPI(sender_psid, response1);
+      await callSendAPI(sender_psid, response2);
       resolve("OK");
     } catch (error) {
       reject(error);
@@ -58,6 +60,37 @@ let handleGetStarted = (sender_psid) => {
   });
 };
 
+let sendGetStartedTemplate = () => {
+  let response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [
+          {
+            title: "Chào mừng bạn đã đến với trang đặt lịch khám bệnh",
+            subtitle: "Tôi có thể giúp gì cho bạn?",
+            image_url:
+              "https://st3.depositphotos.com/27756932/36150/i/450/depositphotos_361504054-stock-photo-doctor-appointment-red-stethoscope-medical.jpg",
+            buttons: [
+              {
+                type: "postback",
+                title: "Bắt đầu",
+                payload: "START",
+              },
+              {
+                type: "postback",
+                title: "Hướng dẫn sử dụng Bot!",
+                payload: "USER_MANUAL",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
+  return response;
+};
 module.exports = {
   handleGetStarted: handleGetStarted,
 };
