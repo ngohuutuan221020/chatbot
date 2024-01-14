@@ -120,6 +120,8 @@ function handlePostback(sender_psid, received_postback) {
     response = {text: "Thanks!"};
   } else if (payload === "no") {
     response = {text: "Oops, try sending another image."};
+  } else if (payload === "GET_STARTED") {
+    response = {text: "OK, CHATBOT."};
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -162,7 +164,7 @@ let setupProfile = async (req, res) => {
   };
   await request(
     {
-      uri: `https://graph.facebook.com/v18.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+      uri: `https://graph.facebook.com/v9.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
       qs: {access_token: PAGE_ACCESS_TOKEN},
       method: "POST",
       json: request_body,
