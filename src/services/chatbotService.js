@@ -2,13 +2,16 @@ require("dotenv").config();
 import request from "request";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
-let callSendAPI = (sender_psid, response) => {
+let callSendAPI = async (sender_psid, response) => {
   let request_body = {
     recipient: {
       id: sender_psid,
     },
     message: response,
   };
+
+  await sendMarkReadMessage(sender_psid);
+  await sendTypingOn(sender_psid);
   request(
     {
       uri: "https://graph.facebook.com/v9.0/me/messages",
@@ -45,6 +48,55 @@ let getUserName = (sender_psid) => {
     );
   });
 };
+////////////////////////////////
+
+let sendTypingOn = (sender_psid) => {
+  let request_body = {
+    recipient: {
+      id: sender_psid,
+    },
+    sender_action: "typing_on",
+  };
+  request(
+    {
+      uri: "https://graph.facebook.com/v9.0/me/messages",
+      qs: {access_token: PAGE_ACCESS_TOKEN},
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("Send typing on mess!");
+      } else {
+        console.error("Unable to send Send typing on mes:" + err);
+      }
+    }
+  );
+};
+let sendMarkReadMessage = (sender_psid) => {
+  let request_body = {
+    recipient: {
+      id: sender_psid,
+    },
+    sender_action: "mark_seen",
+  };
+  request(
+    {
+      uri: "https://graph.facebook.com/v9.0/me/messages",
+      qs: {access_token: PAGE_ACCESS_TOKEN},
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("Send typing on mess!");
+      } else {
+        console.error("Unable to send Send typing on mes:" + err);
+      }
+    }
+  );
+};
+
 ////////////////////////////////
 let handleGetStarted = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
@@ -170,6 +222,7 @@ let getMainMenuTemplate = () => {
   };
   return response;
 };
+
 module.exports = {
   handleGetStarted: handleGetStarted,
   handleSendMainMenu: handleSendMainMenu,
