@@ -412,8 +412,7 @@ let getListDoctor = async () => {
       }
       elements.push({
         title: `${item.lastName} ${item.firstName}`,
-        subtitle: `Chức vụ: ${item.positionData.valueVi}-
-        Số ĐT: ${item.phoneNumber}`,
+        subtitle: `${item.positionData.valueVi} - ĐT: ${item.phoneNumber}`,
         image_url: "https://i.ytimg.com/vi/gcv3QQZaxA4/maxresdefault.jpg",
         buttons: [
           {
