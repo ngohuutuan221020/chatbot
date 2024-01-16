@@ -3,31 +3,39 @@ import request from "request";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let callSendAPI = async (sender_psid, response) => {
-  let request_body = {
-    recipient: {
-      id: sender_psid,
-    },
-    message: response,
-  };
+  return new Promise(async (resolve, reject) => {
+    try {
+      let request_body = {
+        recipient: {
+          id: sender_psid,
+        },
+        message: response,
+      };
 
-  await sendMarkReadMessage(sender_psid);
-  await sendTypingOn(sender_psid);
-  request(
-    {
-      uri: "https://graph.facebook.com/v9.0/me/messages",
-      qs: {access_token: PAGE_ACCESS_TOKEN},
-      method: "POST",
-      json: request_body,
-    },
-    (err, res, body) => {
-      if (!err) {
-        console.log("message sent!");
-      } else {
-        console.error("Unable to send message:" + err);
-      }
+      await sendMarkReadMessage(sender_psid);
+      await sendTypingOn(sender_psid);
+      request(
+        {
+          uri: "https://graph.facebook.com/v9.0/me/messages",
+          qs: {access_token: PAGE_ACCESS_TOKEN},
+          method: "POST",
+          json: request_body,
+        },
+        (err, res, body) => {
+          if (!err) {
+            resolve("message sent!");
+            console.log("message sent!");
+          } else {
+            console.error("Unable to send message:" + err);
+          }
+        }
+      );
+    } catch (error) {
+      reject(error);
     }
-  );
+  });
 };
+
 let getUserName = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     request(
@@ -162,19 +170,19 @@ let getImageStarted = () => {
 
 let getStartedQuickReply = () => {
   let response = {
-    text: "Chào mừng bạn đã đến với trang đặt lịch khám bệnh",
+    text: "Tôi có thể giúp gì cho bạn?",
     quick_replies: [
       {
-        content_type: "text/plain",
+        content_type: "text",
         title: "Bắt đầu",
         payload: "MAIN_MENU",
         image_url: "https://5.imimg.com/data5/JU/GS/MY-1461037/physician-equipment-500x500.jpg",
       },
       {
-        content_type: "text/plain",
+        content_type: "text",
         title: "Hướng dẫn sử dụng Bot!",
         payload: "USER_MANUAL",
-        image_url: "https://suckhoe-fe.vercel.app/static/media/LOGO-SUC-KHOE.61251a14.jpg",
+        image_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYsg8a8yKojBE7W0dihHB6F1UHZVM9m0H8sg&usqp=CAU",
       },
     ],
   };
