@@ -334,7 +334,7 @@ let listDoctor = (sender_psid) => {
 };
 let getListDoctor = async () => {
   let users = await db.User.findAll({
-    limit: 3,
+    limit: 9,
     where: {roleId: "R2"},
     order: [["createdAt", "DESC"]],
     attributes: {
@@ -366,7 +366,7 @@ let getListDoctor = async () => {
       elements.push({
         title: `${item.lastName} ${item.firstName}`,
         subtitle: `${item.positionData.valueVi}`,
-        image_url: "https://i.ytimg.com/vi/gcv3QQZaxA4/maxresdefault.jpg",
+        image_url: imagebase,
         buttons: [
           {
             type: "postback",
