@@ -75,7 +75,7 @@ let getStartedTemplate = () => {
               {
                 type: "postback",
                 title: "Bắt đầu",
-                payload: "START",
+                payload: "MAIN_MENU",
               },
               {
                 type: "postback",
@@ -95,8 +95,8 @@ let getStartedTemplate = () => {
 let handleSendMainMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let response = getMainMenuTemplate();
-      await callSendAPI(sender_psid, response);
+      let response1 = getMainMenuTemplate();
+      await callSendAPI(sender_psid, response1);
       resolve("OK");
     } catch (error) {
       reject(error);
@@ -119,7 +119,7 @@ let getMainMenuTemplate = () => {
               {
                 type: "postback",
                 title: "Đặt lịch khám bệnh",
-                uri: "https://suckhoe-fe.vercel.app/home",
+
                 payload: "BOOKING",
               },
             ],
@@ -132,7 +132,7 @@ let getMainMenuTemplate = () => {
               {
                 type: "postback",
                 title: "Xem danh sách các chuyên khoa",
-                uri: "https://suckhoe-fe.vercel.app/home",
+
                 payload: "CHUYENKHOA",
               },
             ],
@@ -145,7 +145,7 @@ let getMainMenuTemplate = () => {
               {
                 type: "postback",
                 title: "Xem danh sách bác sĩ",
-                uri: "https://suckhoe-fe.vercel.app/home",
+
                 payload: "BACSI",
               },
             ],
@@ -158,7 +158,7 @@ let getMainMenuTemplate = () => {
               {
                 type: "postback",
                 title: "Xem danh sách cơ sở y tế",
-                uri: "https://suckhoe-fe.vercel.app/home",
+
                 payload: "COSOYTE",
               },
             ],
