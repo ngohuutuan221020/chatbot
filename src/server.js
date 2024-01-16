@@ -14,10 +14,11 @@ viewEngine(app);
 
 //config web routes
 webRoutes(app);
+connectDB();
 
 let port = process.env.PORT || 2210;
 chatbotService.getImageStarted();
-connectDB();
+
 app.listen(port, () => {
   console.log("Chatbot đang chạy với cổng: " + port);
 });

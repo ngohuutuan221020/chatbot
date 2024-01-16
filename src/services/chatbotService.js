@@ -1,6 +1,7 @@
 require("dotenv").config();
 import request from "request";
 import db from "../models/index";
+import {response} from "express";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let callSendAPI = async (sender_psid, response) => {
@@ -157,17 +158,62 @@ let getStartedTemplate = () => {
 };
 
 let getImageStarted = async () => {
-  let data = await db.User.findAll();
-  console.log(data);
+  let users = await db.User.findAll({
+    where: {roleId: "R2"},
+    order: [["createdAt", "DESC"]],
+    attributes: {
+      exclude: ["password"],
+    },
+    include: [
+      {
+        model: db.Allcode,
+        as: "positionData",
+        attributes: ["valueEn", "valueVi"],
+      },
+      {
+        model: db.Allcode,
+        as: "genderData",
+        attributes: ["valueEn", "valueVi"],
+      },
+    ],
+    raw: true,
+    nest: true,
+  });
+
+  console.log("users", users);
+
+  let elements = [];
+  if (users && users.length > 0) {
+    users.map((item) => {
+      let imagebase = "";
+      if (item.image) {
+        imagebase = Buffer.from(item.image, "base64").toString("binary");
+      }
+      elements.push({
+        title: `${item.lastName} ${item.firstName}`,
+        subtitle: `${item.positionData.valueVi}`,
+        image_url: imagebase,
+        buttons: [
+          {
+            type: "postback",
+            title: "Bắt đầu",
+            payload: "MAIN_MENU",
+          },
+        ],
+      });
+    });
+  }
   let response = {
     attachment: {
-      type: "image",
+      type: "template",
       payload: {
-        url: "https://suckhoe-fe.vercel.app/static/media/LOGO-SUC-KHOE.61251a14.jpg",
-        is_reusable: true,
+        template_type: "generic",
+        elements: [],
       },
     },
   };
+  response.attachment.payload.elements = elements;
+  console.log("response.attachment.payload.elements", response.attachment.payload.elements);
   return response;
 };
 
