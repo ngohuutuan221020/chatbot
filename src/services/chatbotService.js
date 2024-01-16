@@ -366,7 +366,7 @@ let getListDoctor = async () => {
       elements.push({
         title: `${item.lastName} ${item.firstName}`,
         subtitle: `${item.positionData.valueVi}`,
-        image_url: imagebase,
+        image_url: "https://i.ytimg.com/vi/gcv3QQZaxA4/maxresdefault.jpg",
         buttons: [
           {
             type: "postback",

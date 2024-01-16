@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import viewEngine from "./configs/viewEngine";
 import webRoutes from "./routes/web";
 import connectDB from "./configs/connectDB";
-
+import getListDoctor from "./services/chatbotService";
 let app = express();
 
 app.use(bodyParser.json());
@@ -17,7 +17,7 @@ webRoutes(app);
 connectDB();
 
 let port = process.env.PORT || 2210;
-
+getListDoctor.listDoctor();
 app.listen(port, () => {
   console.log("Chatbot đang chạy với cổng: " + port);
 });
