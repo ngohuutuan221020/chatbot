@@ -1,5 +1,6 @@
 require("dotenv").config();
 import request from "request";
+import db from "../models/index";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let callSendAPI = async (sender_psid, response) => {
@@ -115,8 +116,8 @@ let handleGetStarted = (sender_psid) => {
       let response3 = getImageStarted();
       let response4 = getStartedQuickReply();
       await callSendAPI(sender_psid, response1);
-      // await callSendAPI(sender_psid, response2);
-      // await callSendAPI(sender_psid, response3);
+      await callSendAPI(sender_psid, response2);
+      await callSendAPI(sender_psid, response3);
       // await callSendAPI(sender_psid, response4);
       resolve("OK");
     } catch (error) {
@@ -155,7 +156,9 @@ let getStartedTemplate = () => {
   return response;
 };
 
-let getImageStarted = () => {
+let getImageStarted = async () => {
+  let data = await db.User.findAll();
+  console.log(data);
   let response = {
     attachment: {
       type: "image",
@@ -272,4 +275,5 @@ let getMainMenuTemplate = () => {
 module.exports = {
   handleGetStarted: handleGetStarted,
   handleSendMainMenu: handleSendMainMenu,
+  getImageStarted: getImageStarted,
 };
