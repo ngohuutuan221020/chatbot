@@ -111,13 +111,13 @@ let handleGetStarted = (sender_psid) => {
     try {
       let userName = await getUserName(sender_psid);
       let response1 = {text: `Xin chào ${userName}`};
-      // let response2 = getStartedTemplate();
+      let response2 = getStartedTemplate();
       let response3 = getImageStarted();
       let response4 = getStartedQuickReply();
       await callSendAPI(sender_psid, response1);
       // await callSendAPI(sender_psid, response2);
-      await callSendAPI(sender_psid, response3);
-      await callSendAPI(sender_psid, response4);
+      // await callSendAPI(sender_psid, response3);
+      // await callSendAPI(sender_psid, response4);
       resolve("OK");
     } catch (error) {
       reject(error);
