@@ -127,7 +127,8 @@ let getMainMenuTemplate = () => {
           {
             title: "Chuyên khoa",
             subtitle: "Danh sách chuyên khoa",
-            image_url: "https://benhvienhanoi.vn/wp-content/uploads/2020/11/NehlTH2zpA.jpg",
+            image_url:
+              "https://th.bing.com/th/id/R.a99b1d7914da34f9dbd922f34ca125b4?rik=hH2mpKpMQ4bBMQ&riu=http%3a%2f%2fjainmaternityhospital.com%2fwp-content%2fuploads%2f2017%2f04%2fOur-Experts-1-1024x576.jpg&ehk=f6rekJ6AaZV9Oyte3tPWNtwHbM1Ux%2bEZ%2bhbIMO0K3YA%3d&risl=&pid=ImgRaw&r=0",
             buttons: [
               {
                 type: "postback",
@@ -140,7 +141,7 @@ let getMainMenuTemplate = () => {
           {
             title: "Bác sĩ",
             subtitle: "Danh sách các bác sĩ",
-            image_url: "https://file.vfo.vn/hinh/2019/05/bac-si.jpg",
+            image_url: "https://i.ytimg.com/vi/gcv3QQZaxA4/maxresdefault.jpg",
             buttons: [
               {
                 type: "postback",
