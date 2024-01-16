@@ -125,8 +125,12 @@ async function handlePostback(sender_psid, received_postback) {
       response = {text: "Oops, try sending another image."};
       break;
     case "GET_STARTED":
+    case "START_BOT":
     case "RESTART_BOT":
       await chatbotService.handleGetStarted(sender_psid);
+      break;
+    case "START":
+      await chatbotService.handleSendMainMenu(sender_psid);
       break;
     default:
       response = {text: `Oop!, ${payload}`};
@@ -197,7 +201,7 @@ let setupMenu = async (req, res) => {
         call_to_actions: [
           {
             type: "postback",
-            title: "Bắt đầu",
+            title: "Bắt đầu Bot",
             payload: "START_BOT",
           },
           {

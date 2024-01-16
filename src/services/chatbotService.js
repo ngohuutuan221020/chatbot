@@ -45,12 +45,13 @@ let getUserName = (sender_psid) => {
     );
   });
 };
+////////////////////////////////
 let handleGetStarted = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
       let userName = await getUserName(sender_psid);
       let response1 = {text: `Xin chào ${userName}`};
-      let response2 = sendGetStartedTemplate();
+      let response2 = getStartedTemplate();
       await callSendAPI(sender_psid, response1);
       await callSendAPI(sender_psid, response2);
       resolve("OK");
@@ -59,8 +60,7 @@ let handleGetStarted = (sender_psid) => {
     }
   });
 };
-
-let sendGetStartedTemplate = () => {
+let getStartedTemplate = () => {
   let response = {
     attachment: {
       type: "template",
@@ -91,6 +91,52 @@ let sendGetStartedTemplate = () => {
   };
   return response;
 };
+
+//START
+let handleSendMainMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = getMainMenuTemplate();
+      await callSendAPI(sender_psid, response);
+      resolve("OK");
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let getMainMenuTemplate = () => {
+  let response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [
+          {
+            title: "Website",
+            image_url: "https://th.bing.com/th/id/R.eb15de184b4f26369bb25b896dbaf3e5?rik=isI7A4OIDVQD0Q&pid=ImgRaw&r=0",
+            subtitle: "We have the right hat for everyone.",
+            default_action: {
+              type: "web_url",
+              url: "https://petersfancybrownhats.com/view?item=103",
+              messenger_extensions: false,
+              webview_height_ratio: "tall",
+              fallback_url: "https://petersfancybrownhats.com/",
+            },
+            buttons: [
+              {
+                type: "web_url",
+                url: "https://petersfancybrownhats.com",
+                title: "Xem trang chủ",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
+  return response;
+};
 module.exports = {
   handleGetStarted: handleGetStarted,
+  handleSendMainMenu: handleSendMainMenu,
 };
