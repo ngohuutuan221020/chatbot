@@ -114,11 +114,11 @@ let handleGetStarted = (sender_psid) => {
       let userName = await getUserName(sender_psid);
       let response1 = {text: `Xin chào ${userName}`};
       let response2 = getStartedTemplate();
-      let response3 = await getImageStarted();
-      let response4 = getStartedQuickReply();
+      // let response3 = await getImageStarted();
+      // let response4 = getStartedQuickReply();
       await callSendAPI(sender_psid, response1);
       await callSendAPI(sender_psid, response2);
-      await callSendAPI(sender_psid, response3);
+      // await callSendAPI(sender_psid, response3);
       // await callSendAPI(sender_psid, response4);
       resolve("OK");
     } catch (error) {
@@ -239,7 +239,7 @@ let getStartedQuickReply = () => {
   return response;
 };
 
-//START
+//MainMenu
 let handleSendMainMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -318,9 +318,82 @@ let getMainMenuTemplate = () => {
   };
   return response;
 };
+//danh sach bac si
+let listDoctor = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response1 = await getListDoctor();
+      await callSendAPI(sender_psid, response1);
+      resolve("OK");
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let getListDoctor = async () => {
+  let users = await db.User.findAll({
+    limit: 3,
+    where: {roleId: "R2"},
+    order: [["createdAt", "DESC"]],
+    attributes: {
+      exclude: ["password"],
+    },
+    include: [
+      {
+        model: db.Allcode,
+        as: "positionData",
+        attributes: ["valueEn", "valueVi"],
+      },
+      {
+        model: db.Allcode,
+        as: "genderData",
+        attributes: ["valueEn", "valueVi"],
+      },
+    ],
+    raw: true,
+    nest: true,
+  });
+
+  console.log("users", users);
+
+  let elements = [];
+  if (users && users.length > 0) {
+    users.map((item) => {
+      let imagebase = "";
+      if (item.image) {
+        imagebase = Buffer.from(item.image, "base64").toString("binary");
+      }
+      elements.push({
+        title: `${item.lastName} ${item.firstName}`,
+        subtitle: `${item.positionData.valueVi}`,
+        image_url: imagebase,
+        buttons: [
+          {
+            type: "postback",
+            title: "Bắt đầu",
+            payload: "MAIN_MENU",
+          },
+        ],
+      });
+    });
+  }
+  let response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [],
+      },
+    },
+  };
+  response.attachment.payload.elements = elements;
+  console.log("response.attachment.payload.elements", response.attachment.payload.elements);
+  return response;
+};
 
 module.exports = {
   handleGetStarted: handleGetStarted,
   handleSendMainMenu: handleSendMainMenu,
+  listDoctor: listDoctor,
   getImageStarted: getImageStarted,
 };
