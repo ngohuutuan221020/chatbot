@@ -280,8 +280,7 @@ let getMainMenuTemplate = () => {
             buttons: [
               {
                 type: "postback",
-                title: "Xem danh sách các chuyên khoa",
-
+                title: "Xem thêm",
                 payload: "CHUYENKHOA",
               },
             ],
@@ -293,8 +292,7 @@ let getMainMenuTemplate = () => {
             buttons: [
               {
                 type: "postback",
-                title: "Xem danh sách bác sĩ",
-
+                title: "Xem thêm",
                 payload: "BACSI",
               },
             ],
@@ -306,8 +304,7 @@ let getMainMenuTemplate = () => {
             buttons: [
               {
                 type: "postback",
-                title: "Xem danh sách cơ sở y tế",
-
+                title: "Xem thêm",
                 payload: "COSOYTE",
               },
             ],
