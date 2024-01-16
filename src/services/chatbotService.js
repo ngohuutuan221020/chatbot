@@ -112,21 +112,15 @@ let getMainMenuTemplate = () => {
         template_type: "generic",
         elements: [
           {
-            title: "Website",
-            image_url: "https://th.bing.com/th/id/R.eb15de184b4f26369bb25b896dbaf3e5?rik=isI7A4OIDVQD0Q&pid=ImgRaw&r=0",
-            subtitle: "We have the right hat for everyone.",
-            default_action: {
-              type: "web_url",
-              url: "https://petersfancybrownhats.com/view?item=103",
-              messenger_extensions: false,
-              webview_height_ratio: "tall",
-              fallback_url: "https://petersfancybrownhats.com/",
-            },
+            title: "Đặt lịch khám bệnh",
+            subtitle: "Bạn có thể đặt lịch khám bệnh tại Sức khoẻ",
+            image_url:
+              "https://st3.depositphotos.com/27756932/36150/i/450/depositphotos_361504054-stock-photo-doctor-appointment-red-stethoscope-medical.jpg",
             buttons: [
               {
-                type: "web_url",
-                url: "https://petersfancybrownhats.com",
-                title: "Xem trang chủ",
+                type: "postback",
+                title: "Đặt lịch khám bệnh",
+                payload: "BOOKING",
               },
             ],
           },
