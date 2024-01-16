@@ -103,9 +103,13 @@ let handleGetStarted = (sender_psid) => {
     try {
       let userName = await getUserName(sender_psid);
       let response1 = {text: `Xin chào ${userName}`};
-      let response2 = getStartedTemplate();
+      // let response2 = getStartedTemplate();
+      let response3 = getImageStarted();
+      let response4 = getStartedQuickReply();
       await callSendAPI(sender_psid, response1);
-      await callSendAPI(sender_psid, response2);
+      // await callSendAPI(sender_psid, response2);
+      await callSendAPI(sender_psid, response3);
+      await callSendAPI(sender_psid, response4);
       resolve("OK");
     } catch (error) {
       reject(error);
@@ -139,6 +143,40 @@ let getStartedTemplate = () => {
         ],
       },
     },
+  };
+  return response;
+};
+
+let getImageStarted = () => {
+  let response = {
+    attachment: {
+      type: "image",
+      payload: {
+        url: "https://suckhoe-fe.vercel.app/static/media/LOGO-SUC-KHOE.61251a14.jpg",
+        is_reusable: true,
+      },
+    },
+  };
+  return response;
+};
+
+let getStartedQuickReply = () => {
+  let response = {
+    text: "Chào mừng bạn đã đến với trang đặt lịch khám bệnh",
+    quick_replies: [
+      {
+        content_type: "text/plain",
+        title: "Bắt đầu",
+        payload: "MAIN_MENU",
+        image_url: "https://5.imimg.com/data5/JU/GS/MY-1461037/physician-equipment-500x500.jpg",
+      },
+      {
+        content_type: "text/plain",
+        title: "Hướng dẫn sử dụng Bot!",
+        payload: "USER_MANUAL",
+        image_url: "https://suckhoe-fe.vercel.app/static/media/LOGO-SUC-KHOE.61251a14.jpg",
+      },
+    ],
   };
   return response;
 };
