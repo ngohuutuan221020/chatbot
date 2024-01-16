@@ -138,6 +138,9 @@ async function handlePostback(sender_psid, received_postback) {
     case "BACSI":
       await chatbotService.listDoctor(sender_psid);
       break;
+    case "COSOYTE":
+      await chatbotService.listCoSoYTe(sender_psid);
+      break;
     default:
       response = {text: `Oop!, ${payload}`};
   }

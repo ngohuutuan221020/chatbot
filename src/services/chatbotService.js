@@ -183,8 +183,6 @@ let getImageStarted = async () => {
     nest: true,
   });
 
-  console.log("users", users);
-
   let elements = [];
   if (users && users.length > 0) {
     users.map((item) => {
@@ -216,7 +214,7 @@ let getImageStarted = async () => {
     },
   };
   response.attachment.payload.elements = elements;
-  console.log("response.attachment.payload.elements", response.attachment.payload.elements);
+
   return response;
 };
 
@@ -334,22 +332,27 @@ let listChuyenKhoa = (sender_psid) => {
 };
 let getlistChuyenKhoa = async () => {
   let data = await db.Specialty.findAll({
+    limit: 9,
+    order: [["createdAt", "DESC"]],
+    attributes: {
+      exclude: ["descriptionMarkdown", "descriptionHTML", "image"],
+    },
     raw: true,
   });
-  console.log("data", data);
+
   let elements = [];
   if (data && data.length > 0) {
     data.map((item) => {
       elements.push({
         title: `${item.name}`,
-        subtitle: `${item.descriptionHTML}`,
+        subtitle: " ",
         image_url:
           "https://th.bing.com/th/id/R.a99b1d7914da34f9dbd922f34ca125b4?rik=hH2mpKpMQ4bBMQ&riu=http%3a%2f%2fjainmaternityhospital.com%2fwp-content%2fuploads%2f2017%2f04%2fOur-Experts-1-1024x576.jpg&ehk=f6rekJ6AaZV9Oyte3tPWNtwHbM1Ux%2bEZ%2bhbIMO0K3YA%3d&risl=&pid=ImgRaw&r=0",
         buttons: [
           {
             type: "postback",
             title: "DOCTOR",
-            payload: "DOCTOR",
+            payload: item.id,
           },
         ],
       });
@@ -365,7 +368,7 @@ let getlistChuyenKhoa = async () => {
     },
   };
   response.attachment.payload.elements = elements;
-  console.log("response", response.attachment.payload.elements);
+
   return response;
 };
 //danh sach bac si
@@ -386,7 +389,7 @@ let getListDoctor = async () => {
     where: {roleId: "R2"},
     order: [["createdAt", "DESC"]],
     attributes: {
-      exclude: ["password"],
+      exclude: ["password", "image"],
     },
     include: [
       {
@@ -410,16 +413,70 @@ let getListDoctor = async () => {
       if (item.image) {
         imagebase = Buffer.from(item.image, "base64").toString("binary");
       }
-
       elements.push({
         title: `${item.lastName} ${item.firstName}`,
-        subtitle: `${item.positionData.valueVi}`,
+        subtitle: `Chức vụ: ${item.positionData.valueVi} Số ĐT: ${item.phoneNumber}`,
         image_url: "https://i.ytimg.com/vi/gcv3QQZaxA4/maxresdefault.jpg",
         buttons: [
           {
             type: "postback",
-            title: "DOCTOR",
-            payload: "DOCTOR",
+            title: "Đặt lịch",
+            payload: item.id,
+          },
+        ],
+      });
+    });
+  }
+  let response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [],
+      },
+    },
+  };
+  response.attachment.payload.elements = elements;
+  return response;
+};
+//listCoSoYTe
+let listCoSoYTe = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await getlistCoSoYTe();
+      await callSendAPI(sender_psid, response);
+      resolve("OK");
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let getlistCoSoYTe = async () => {
+  let users = await db.Clinic.findAll({
+    limit: 9,
+    order: [["createdAt", "DESC"]],
+    attributes: {
+      exclude: ["descriptionMarkdown", "descriptionHTML", "image"],
+    },
+    raw: true,
+  });
+
+  let elements = [];
+  if (users && users.length > 0) {
+    users.map((item) => {
+      let imagebase = "";
+      if (item.image) {
+        imagebase = Buffer.from(item.image, "base64").toString("binary");
+      }
+      elements.push({
+        title: `${item.name}`,
+        subtitle: `Địa chỉ: ${item.address}`,
+        image_url: "https://admin.medinet.gov.vn/UploadImages/soytehcm/2019_10/15/hinh-hl-1.png",
+        buttons: [
+          {
+            type: "postback",
+            title: "Đặt lịch",
+            payload: item.id,
           },
         ],
       });
@@ -443,4 +500,5 @@ module.exports = {
   handleSendMainMenu: handleSendMainMenu,
   listDoctor: listDoctor,
   listChuyenKhoa: listChuyenKhoa,
+  listCoSoYTe: listCoSoYTe,
 };
