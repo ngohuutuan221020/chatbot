@@ -351,8 +351,8 @@ let getlistChuyenKhoa = async () => {
         buttons: [
           {
             type: "postback",
-            title: "DOCTOR",
-            payload: item.id,
+            title: "XEM CHI TIẾT",
+            payload: `CHUYENKHOA${item.id}`,
           },
         ],
       });
@@ -420,8 +420,8 @@ let getListDoctor = async () => {
         buttons: [
           {
             type: "postback",
-            title: "Đặt lịch",
-            payload: item.id,
+            title: "XEM CHI TIẾT",
+            payload: `BACSI${item.id}`,
           },
         ],
       });
@@ -475,8 +475,8 @@ let getlistCoSoYTe = async () => {
         buttons: [
           {
             type: "postback",
-            title: "Đặt lịch",
-            payload: item.id,
+            title: "XEM CHI TIẾT",
+            payload: `COSOYTE${item.id}`,
           },
         ],
       });
