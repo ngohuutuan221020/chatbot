@@ -70,8 +70,7 @@ let getStartedTemplate = () => {
           {
             title: "Chào mừng bạn đã đến với trang đặt lịch khám bệnh",
             subtitle: "Tôi có thể giúp gì cho bạn?",
-            image_url:
-              "https://st3.depositphotos.com/27756932/36150/i/450/depositphotos_361504054-stock-photo-doctor-appointment-red-stethoscope-medical.jpg",
+            image_url: "https://suckhoe-fe.vercel.app/static/media/LOGO-SUC-KHOE.61251a14.jpg",
             buttons: [
               {
                 type: "postback",
@@ -120,7 +119,47 @@ let getMainMenuTemplate = () => {
               {
                 type: "postback",
                 title: "Đặt lịch khám bệnh",
+                uri: "https://suckhoe-fe.vercel.app/home",
                 payload: "BOOKING",
+              },
+            ],
+          },
+          {
+            title: "Chuyên khoa",
+            subtitle: "Danh sách chuyên khoa",
+            image_url: "https://benhvienhanoi.vn/wp-content/uploads/2020/11/NehlTH2zpA.jpg",
+            buttons: [
+              {
+                type: "postback",
+                title: "Xem danh sách các chuyên khoa",
+                uri: "https://suckhoe-fe.vercel.app/home",
+                payload: "CHUYENKHOA",
+              },
+            ],
+          },
+          {
+            title: "Bác sĩ",
+            subtitle: "Danh sách các bác sĩ",
+            image_url: "https://file.vfo.vn/hinh/2019/05/bac-si.jpg",
+            buttons: [
+              {
+                type: "postback",
+                title: "Xem danh sách bác sĩ",
+                uri: "https://suckhoe-fe.vercel.app/home",
+                payload: "BACSI",
+              },
+            ],
+          },
+          {
+            title: "Cơ sở y tế",
+            subtitle: "Danh sách các cơ sở y tế",
+            image_url: "https://admin.medinet.gov.vn/UploadImages/soytehcm/2019_10/15/hinh-hl-1.png",
+            buttons: [
+              {
+                type: "postback",
+                title: "Xem danh sách cơ sở y tế",
+                uri: "https://suckhoe-fe.vercel.app/home",
+                payload: "COSOYTE",
               },
             ],
           },
