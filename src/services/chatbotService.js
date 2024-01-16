@@ -114,7 +114,7 @@ let handleGetStarted = (sender_psid) => {
       let userName = await getUserName(sender_psid);
       let response1 = {text: `Xin chào ${userName}`};
       let response2 = getStartedTemplate();
-      let response3 = getImageStarted();
+      let response3 = await getImageStarted();
       let response4 = getStartedQuickReply();
       await callSendAPI(sender_psid, response1);
       await callSendAPI(sender_psid, response2);
@@ -159,6 +159,7 @@ let getStartedTemplate = () => {
 
 let getImageStarted = async () => {
   let users = await db.User.findAll({
+    limit: 3,
     where: {roleId: "R2"},
     order: [["createdAt", "DESC"]],
     attributes: {
