@@ -125,10 +125,11 @@ async function handlePostback(sender_psid, received_postback) {
       response = {text: "Oops, try sending another image."};
       break;
     case "GET_STARTED":
-    case "START_BOT":
     case "RESTART_BOT":
       await chatbotService.handleGetStarted(sender_psid);
       break;
+    case "START_BOT":
+    case "START":
     case "MAIN_MENU":
       await chatbotService.handleSendMainMenu(sender_psid);
       break;
@@ -201,13 +202,18 @@ let setupProfile = async (req, res) => {
   return res.send("Cài đặt thành công chatbot");
 };
 
-let setupMenu = async (req, res) => {
+let setupMenu1 = async (req, res) => {
   let request_body = {
     persistent_menu: [
       {
         locale: "default",
         composer_input_disabled: false,
         call_to_actions: [
+          {
+            type: "postback",
+            title: "Bắt đầu BOT",
+            payload: "START",
+          },
           {
             type: "web_url",
             title: "Facebook",
@@ -216,7 +222,7 @@ let setupMenu = async (req, res) => {
           },
           {
             type: "postback",
-            title: "Khởi động lại Bot",
+            title: "Khởi động lại BOT",
             payload: "RESTART_BOT",
           },
         ],
@@ -242,7 +248,7 @@ let setupMenu = async (req, res) => {
   return res.send("Cài đặt thành công persistent menu chatbot");
 };
 module.exports = {
-  setupMenu: setupMenu,
+  setupMenu1: setupMenu1,
   setupProfile: setupProfile,
   getHomePage: getHomePage,
   postWebhook: postWebhook,
