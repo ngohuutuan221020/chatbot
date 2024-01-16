@@ -320,6 +320,54 @@ let getMainMenuTemplate = () => {
   };
   return response;
 };
+//danh sach chuyen khoa
+let listChuyenKhoa = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await getlistChuyenKhoa();
+      await callSendAPI(sender_psid, response);
+      resolve("OK");
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let getlistChuyenKhoa = async () => {
+  let data = await db.Specialty.findAll({
+    raw: true,
+  });
+  console.log("data", data);
+  let elements = [];
+  if (data && data.length > 0) {
+    data.map((item) => {
+      elements.push({
+        title: `${item.name}`,
+        subtitle: `${item.descriptionHTML}`,
+        image_url:
+          "https://th.bing.com/th/id/R.a99b1d7914da34f9dbd922f34ca125b4?rik=hH2mpKpMQ4bBMQ&riu=http%3a%2f%2fjainmaternityhospital.com%2fwp-content%2fuploads%2f2017%2f04%2fOur-Experts-1-1024x576.jpg&ehk=f6rekJ6AaZV9Oyte3tPWNtwHbM1Ux%2bEZ%2bhbIMO0K3YA%3d&risl=&pid=ImgRaw&r=0",
+        buttons: [
+          {
+            type: "postback",
+            title: "DOCTOR",
+            payload: "DOCTOR",
+          },
+        ],
+      });
+    });
+  }
+  let response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [],
+      },
+    },
+  };
+  response.attachment.payload.elements = elements;
+  console.log("response", response.attachment.payload.elements);
+  return response;
+};
 //danh sach bac si
 let listDoctor = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
@@ -387,7 +435,6 @@ let getListDoctor = async () => {
     },
   };
   response.attachment.payload.elements = elements;
-  console.log("response", response.attachment.payload.elements);
   return response;
 };
 
@@ -395,4 +442,5 @@ module.exports = {
   handleGetStarted: handleGetStarted,
   handleSendMainMenu: handleSendMainMenu,
   listDoctor: listDoctor,
+  listChuyenKhoa: listChuyenKhoa,
 };
