@@ -24,6 +24,9 @@ let callSendAPI = async (sender_psid, response) => {
           json: request_body,
         },
         (err, res, body) => {
+          console.log("1111111111111!");
+          console.log(body);
+          console.log("11111111!");
           if (!err) {
             resolve("message sent!");
             console.log("message sent!");
@@ -116,10 +119,9 @@ let handleGetStarted = (sender_psid) => {
       let response2 = getStartedTemplate();
       // let response3 = await getImageStarted();
       // let response4 = getStartedQuickReply();
+
       await callSendAPI(sender_psid, response1);
       await callSendAPI(sender_psid, response2);
-      // await callSendAPI(sender_psid, response3);
-      // await callSendAPI(sender_psid, response4);
       resolve("OK");
     } catch (error) {
       reject(error);
@@ -322,8 +324,8 @@ let getMainMenuTemplate = () => {
 let listDoctor = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let response1 = await getListDoctor();
-      await callSendAPI(sender_psid, response1);
+      let response = await getListDoctor();
+      await callSendAPI(sender_psid, response);
       resolve("OK");
     } catch (error) {
       reject(error);
@@ -353,9 +355,6 @@ let getListDoctor = async () => {
     raw: true,
     nest: true,
   });
-
-  console.log("users", users);
-
   let elements = [];
   if (users && users.length > 0) {
     users.map((item) => {
@@ -363,15 +362,16 @@ let getListDoctor = async () => {
       if (item.image) {
         imagebase = Buffer.from(item.image, "base64").toString("binary");
       }
+
       elements.push({
         title: `${item.lastName} ${item.firstName}`,
         subtitle: `${item.positionData.valueVi}`,
-        image_url: imagebase,
+        image_url: "https://i.ytimg.com/vi/gcv3QQZaxA4/maxresdefault.jpg",
         buttons: [
           {
             type: "postback",
-            title: "Bắt đầu",
-            payload: "MAIN_MENU",
+            title: "DOCTOR",
+            payload: "DOCTOR",
           },
         ],
       });
@@ -387,7 +387,7 @@ let getListDoctor = async () => {
     },
   };
   response.attachment.payload.elements = elements;
-  console.log("response.attachment.payload.elements", response.attachment.payload.elements);
+  console.log("response", response.attachment.payload.elements);
   return response;
 };
 
@@ -395,5 +395,4 @@ module.exports = {
   handleGetStarted: handleGetStarted,
   handleSendMainMenu: handleSendMainMenu,
   listDoctor: listDoctor,
-  getImageStarted: getImageStarted,
 };
