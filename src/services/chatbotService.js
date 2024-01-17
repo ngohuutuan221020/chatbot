@@ -280,7 +280,7 @@ let getMainMenuTemplate = () => {
             buttons: [
               {
                 type: "postback",
-                title: "Xem thêm",
+                title: "XEM CHUYÊN KHOA",
                 payload: "CHUYENKHOA",
               },
             ],
@@ -292,7 +292,7 @@ let getMainMenuTemplate = () => {
             buttons: [
               {
                 type: "postback",
-                title: "Xem thêm",
+                title: "XEM BÁC SĨ",
                 payload: "BACSI",
               },
             ],
@@ -304,7 +304,7 @@ let getMainMenuTemplate = () => {
             buttons: [
               {
                 type: "postback",
-                title: "Xem thêm",
+                title: "XEM CƠ SỞ Y TẾ",
                 payload: "COSOYTE",
               },
             ],
@@ -347,9 +347,10 @@ let getlistChuyenKhoa = async () => {
           "https://th.bing.com/th/id/R.a99b1d7914da34f9dbd922f34ca125b4?rik=hH2mpKpMQ4bBMQ&riu=http%3a%2f%2fjainmaternityhospital.com%2fwp-content%2fuploads%2f2017%2f04%2fOur-Experts-1-1024x576.jpg&ehk=f6rekJ6AaZV9Oyte3tPWNtwHbM1Ux%2bEZ%2bhbIMO0K3YA%3d&risl=&pid=ImgRaw&r=0",
         buttons: [
           {
-            type: "postback",
+            type: "web_url",
             title: "XEM CHI TIẾT",
-            payload: `CHUYENKHOA${item.id}`,
+            url: `https://suckhoe-fe.vercel.app/detail-doctor/${item.id}`,
+            webview_height_ratio: "full",
           },
         ],
       });
