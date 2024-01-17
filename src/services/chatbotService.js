@@ -349,7 +349,7 @@ let getlistChuyenKhoa = async () => {
           {
             type: "web_url",
             title: "XEM CHI TIẾT",
-            url: `https://suckhoe-fe.vercel.app/detail-doctor/${item.id}`,
+            url: `https://suckhoe-fe.vercel.app/detail-specialty/${item.id}`,
             webview_height_ratio: "full",
           },
         ],
@@ -417,9 +417,10 @@ let getListDoctor = async () => {
         image_url: "https://i.ytimg.com/vi/gcv3QQZaxA4/maxresdefault.jpg",
         buttons: [
           {
-            type: "postback",
+            type: "web_url",
             title: "XEM CHI TIẾT",
-            payload: `BACSI${item.id}`,
+            url: `https://suckhoe-fe.vercel.app/detail-doctor/${item.id}`,
+            webview_height_ratio: "full",
           },
         ],
       });
@@ -472,9 +473,10 @@ let getlistCoSoYTe = async () => {
         image_url: "https://admin.medinet.gov.vn/UploadImages/soytehcm/2019_10/15/hinh-hl-1.png",
         buttons: [
           {
-            type: "postback",
+            type: "web_url",
             title: "XEM CHI TIẾT",
-            payload: `COSOYTE${item.id}`,
+            url: `https://suckhoe-fe.vercel.app/detail-clinic/${item.id}`,
+            webview_height_ratio: "full",
           },
         ],
       });
